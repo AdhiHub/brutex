@@ -170,15 +170,30 @@ run_brute() {
     echo -e "${GREEN}[+] Host reachable on port $port.${RESET}"
 
     if [ "$HYDRA_AVAILABLE" -eq 1 ]; then
-        echo -ne "${YELLOW}[?] Use hydra? (faster) [Y/n]: ${RESET}"
-        read -r use_hydra
-        case "$use_hydra" in
-            n|N|no|NO) brute_manual "$service" "$host" "$port" "$userlist" "$passlist" ;;
-            *)         brute_hydra "$service" "$host" "$port" "$userlist" "$passlist" ;;
-        esac
+        if [ -t 0 ]; then
+            echo -ne "${YELLOW}[?] Use hydra? (faster) [Y/n]: ${RESET}"
+            read -r use_hydra
+            case "$use_hydra" in
+                n|N|no|NO) brute_manual "$service" "$host" "$port" "$userlist" "$passlist" ;;
+                *)         brute_hydra "$service" "$host" "$port" "$userlist" "$passlist" ;;
+            esac
+        else
+            brute_hydra "$service" "$host" "$port" "$userlist" "$passlist"
+        fi
     else
         brute_manual "$service" "$host" "$port" "$userlist" "$passlist" || true
     fi
+}
+
+get_brute_args() {
+    echo -ne "${YELLOW}[?] Target IP/Host: ${RESET}"
+    read -r host
+    echo -ne "${YELLOW}[?] Port: ${RESET}"
+    read -r port
+    echo -ne "${YELLOW}[?] Userlist file path: ${RESET}"
+    read -r userlist
+    echo -ne "${YELLOW}[?] Passlist file path: ${RESET}"
+    read -r passlist
 }
 
 interactive_menu() {
@@ -196,17 +211,6 @@ interactive_menu() {
         echo -e "${CYAN}╚══════════════════════════════════════╝${RESET}"
         echo -ne "${GREEN}[?] Select option: ${RESET}"
         read -r choice
-
-        get_brute_args() {
-            echo -ne "${YELLOW}[?] Target IP/Host: ${RESET}"
-            read -r host
-            echo -ne "${YELLOW}[?] Port: ${RESET}"
-            read -r port
-            echo -ne "${YELLOW}[?] Userlist file path: ${RESET}"
-            read -r userlist
-            echo -ne "${YELLOW}[?] Passlist file path: ${RESET}"
-            read -r passlist
-        }
 
         case "$choice" in
             1) get_brute_args; run_brute "ssh" "$host" "$port" "$userlist" "$passlist"
