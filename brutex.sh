@@ -14,7 +14,7 @@ show_disclaimer() {
     echo "╔══════════════════════════════════════════════════════════╗"
     echo "║                     DISCLAIMER                          ║"
     echo "╠══════════════════════════════════════════════════════════╣"
-    echo "║ Use at your own risk, developer(s) assume NO liability  ║"
+    echo "║ Use at your own risk, developer assume NO liability  ║"
     echo "║ This tool is for educational & authorized testing ONLY  ║"
     echo "║ Unauthorized scanning of systems you don't own is       ║"
     echo "║ ILLEGAL. You have been warned.                          ║"

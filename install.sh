@@ -62,7 +62,7 @@ main() {
     echo "  ║       BRUTEX INSTALLER v1.1          ║"
     echo "  ╚══════════════════════════════════════╝"
     echo -e "${RESET}"
-    echo -e "${YELLOW}Use at your own risk, developer(s) assume NO liability${RESET}"
+    echo -e "${YELLOW}Use at your own risk, developer assume NO liability${RESET}"
     echo ""
     install_deps
     do_install
